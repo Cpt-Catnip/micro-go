@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -14,5 +15,7 @@ func NewGoodbye(l *log.Logger) *Goodbye {
 }
 
 func (g *Goodbye) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	rw.Write([]byte("Byeee"))
+	g.l.Println("Handle Goodbye request")
+
+	fmt.Fprintf(rw, "Goodbye")
 }

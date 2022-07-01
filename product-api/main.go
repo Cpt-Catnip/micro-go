@@ -9,10 +9,20 @@ import (
 	"product-api/handlers"
 	"syscall"
 	"time"
+
+	"github.com/nicholasjackson/env"
 )
+
+var bindAddress = env.String("BIND_ADDRESS", false, ":9090", "Bind address for the server")
 
 func main() {
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
+
+	err := env.Parse()
+	if err != nil {
+		l.Printf("Error parsing environment: %s/n", err)
+	}
+
 	hh := handlers.NewHello(l)
 	gh := handlers.NewGoodbye(l)
 
@@ -20,8 +30,8 @@ func main() {
 	sm.Handle("/", hh)
 	sm.Handle("/goodbye", gh)
 
-	s := &http.Server{
-		Addr:         ":9090",
+	s := http.Server{
+		Addr:         *bindAddress,
 		Handler:      sm,
 		IdleTimeout:  120 * time.Second,
 		ReadTimeout:  1 * time.Second,
@@ -29,9 +39,11 @@ func main() {
 	}
 
 	go func() {
+		l.Println("Starting server on port 9090")
+
 		err := s.ListenAndServe()
 		if err != nil {
-			l.Fatal(err)
+			l.Printf("Error starting server: %s/n", err)
 			os.Exit(1)
 		}
 	}()
@@ -40,9 +52,9 @@ func main() {
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 
 	sig := <-sigChan
-	l.Println("Received terminate, graceful shutdown", sig)
+	l.Println("Got signal:", sig)
 
-	tc, c := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, c := context.WithTimeout(context.Background(), 30*time.Second)
 	defer c()
-	s.Shutdown(tc)
+	s.Shutdown(ctx)
 }
