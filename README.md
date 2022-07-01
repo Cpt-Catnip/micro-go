@@ -5,4 +5,4 @@ This repo will include any code generated while going through the YouTube playli
 
 [Github repo with code examples](https://github.com/nicholasjackson/building-microservices-youtube)
 
-See the [note](./notes/) folder for me notes
+See the [notes](./notes/) folder for me notes
