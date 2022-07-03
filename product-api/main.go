@@ -23,12 +23,10 @@ func main() {
 		l.Printf("Error parsing environment: %s/n", err)
 	}
 
-	hh := handlers.NewHello(l)
-	gh := handlers.NewGoodbye(l)
+	ph := handlers.NewProducts(l)
 
 	sm := http.NewServeMux()
-	sm.Handle("/", hh)
-	sm.Handle("/goodbye", gh)
+	sm.Handle("/", ph)
 
 	s := http.Server{
 		Addr:         *bindAddress,
@@ -49,7 +47,8 @@ func main() {
 	}()
 
 	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+	signal.Notify(sigChan, os.Interrupt)
+	signal.Notify(sigChan, syscall.SIGTERM)
 
 	sig := <-sigChan
 	l.Println("Got signal:", sig)
