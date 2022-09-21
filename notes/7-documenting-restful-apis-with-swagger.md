@@ -21,3 +21,11 @@
 * Yeah I don't think this thing is really working?
     * I can't get it via `brew` or `go get`
     * Might have to skip these next two vids :(
+* Arthur helped me install it and it works now! Yippee!!
+* `go get` is deprecated as of go 1.18. You have to use `go install` now.
+* Now on to documenting the APIs!!
+* Hold on just a second, I seem to be missing a number of files...
+* Yes, Nic did quite a bit of refactoring in between videos here
+  * this is incredibly annoying since I have to copy over all of the content from episode 7 and not just what Nic has at the beginning
+  * I'm gonna try to do it as the files come up
+* BRB gonna do a lot of code editing...
