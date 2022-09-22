@@ -29,3 +29,9 @@
   * this is incredibly annoying since I have to copy over all of the content from episode 7 and not just what Nic has at the beginning
   * I'm gonna try to do it as the files come up
 * BRB gonna do a lot of code editing...
+* Getting a little ahead of myself and there's stuff I'm adding in that is DEF gonna be explained in the video
+* Done with copy pasta and still there are errors >:(
+  * Resolved all except the middleware problem, which will likely be addressed in the video
+  * Will comment out `middleware`
+* **Back to the video now!!!**
+* 

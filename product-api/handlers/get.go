@@ -51,13 +51,13 @@ func (p *Products) ListSingle(rw http.ResponseWriter, r *http.Request) {
 		p.l.Println("[ERROR] fetching product", err)
 
 		rw.WriteHeader(http.StatusInternalServerError)
-		data.ToJSON(&GenericError{Message: err.Error()}, err)
+		data.ToJSON(&GenericError{Message: err.Error()}, rw)
 		return
 	}
 
 	err = data.ToJSON(prod, rw)
 	if err != nil {
-		//we should never be here but log the error just incase
-		p.l.Println("[ERROR] serializing prduct", err)
+		//we should never be here but log the error just in case
+		p.l.Println("[ERROR] serializing product", err)
 	}
 }
