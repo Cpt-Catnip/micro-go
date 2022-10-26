@@ -10,6 +10,8 @@ import (
 	"product-api/handlers"
 	"time"
 
+	"github.com/go-openapi/runtime/middleware"
+
 	"github.com/gorilla/mux"
 	"github.com/nicholasjackson/env"
 )
@@ -46,11 +48,11 @@ func main() {
 	deleteR.HandleFunc("/products/{id:[0-9]+}", ph.Delete)
 
 	// handler for documentation
-	//opts := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
-	//sh := middleware.Redoc(opts, nil)
+	opts := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
+	sh := middleware.Redoc(opts, nil)
 
-	//getR.Handle("/docs", sh)
-	//getR.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
+	getR.Handle("/docs", sh)
+	getR.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 
 	// create a new server
 	s := http.Server{

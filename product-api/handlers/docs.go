@@ -74,3 +74,11 @@ type productIDParamsWrapper struct {
 	// required: true
 	ID int `json:"id"`
 }
+
+// swagger:parameters deleteProduct
+type productIDParameterWrapper struct {
+	// The id of the product to delete from the database
+	// in: path
+	// required: true
+	ID int `json:"id"`
+}
