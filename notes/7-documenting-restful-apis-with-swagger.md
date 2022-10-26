@@ -149,4 +149,4 @@ type productResponseWrapper struct {
 }
 ```
 
-* 
+Okay yeah I'm a little out of sync. That's okay though we will persevere.
