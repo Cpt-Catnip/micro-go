@@ -111,4 +111,75 @@ func TestOurClient(t *testing.T) {
 
 * And this is still giving an error but we can see from the logs on the server that it's getting a request
 * Error is `main_test.go:18: &[] (*[]*models.Product) is not supported by the TextConsumer, can be resolved by supporting TextUnmarshaler interface`
-* 
+* Alright let's find out why we're getting this strange error. Is the client unable to render something?
+* Nic has confirmed that the API is in fact working, so it must be a problem with the generated code
+* Nic is stumped
+* After some debugging, it _appears_ that our service is returning plain text but the client is expecting application/json
+  * Well why are we returning text in the first place...
+* Or something like that
+* Maybe we're not setting the response header?
+* Okay here we go
+* In the swagger docs, we've specified that we're going to return application JSON
+
+```go
+// Package handlers Package classification of Product API
+//
+// Documentation for Product API
+//
+//		Schemes: http
+//		BasePath: /
+//		Version: 1.0.0
+//
+//		Consumes:
+//		- application/json
+//
+//		Produces:
+//		- application/json
+//
+//	swagger:meta
+```
+
+* We're _not_ specifying anywhere in the response that we're passing application/json
+
+```go
+func (p *Products) ListAll(rw http.ResponseWriter, r *http.Request) {
+	p.l.Println("[DEBUG] get all records")
+
+	prods := data.GetProducts()
+
+	err := data.ToJSON(prods, rw)
+	if err != nil {
+		// we should never be here but log the error just in case
+		p.l.Println("[ERROR] serializing product", err)
+	}
+}
+```
+
+* We need to add `rw.Header().Add("Content-Type", "application/json")` in the handler so that the client knows how to parse the response
+
+```go
+func (p *Products) ListAll(rw http.ResponseWriter, r *http.Request) {
+	p.l.Println("[DEBUG] get all records")
+
+	rw.Header().Add("Content-Type", "application/json")
+
+	prods := data.GetProducts()
+
+	err := data.ToJSON(prods, rw)
+	if err != nil {
+		// we should never be here but log the error just in case
+		p.l.Println("[ERROR] serializing product", err)
+	}
+}
+```
+
+* And now the test passes
+* It would be nice if we could, some middleware, always write this to the header in our responses
+* Okay I should probably set those headers in the other request handlers even though Nic isn't doing that
+* Or I'll check the link he posts in desc
+* Nic put the content type in the header in the `MiddlewareValidateProduct` middleware, which I do not agree with
+  * I think it should get its own middleware function
+
+# Conclusion
+* Nearly done with REST now!
+* All he wants to do now is something with the file-server and compression
