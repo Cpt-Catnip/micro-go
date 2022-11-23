@@ -8,3 +8,4 @@
 ## [Episode 6: JSON Validation](./6-json-validation.md)
 ## [Episode 7: Documenting RESTful APIs with Swagger](./7-documenting-restful-apis-with-swagger.md)
 ## [Episode 8: Auto-generating HTTP clients from Swagger files](./8-auto-generating-http-clients-from-swagger-files.md)
+## [Episode 9: CORS (Cross-Origin Resource Sharing)](./9-cors-cross-origin-resource-sharing.md)
