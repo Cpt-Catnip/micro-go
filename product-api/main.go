@@ -73,7 +73,7 @@ func main() {
 		l.Println("Starting server on port 9090")
 
 		err := s.ListenAndServe()
-		if err != nil {
+		if err != http.ErrServerClosed {
 			l.Printf("Error starting server: %s/n", err)
 			os.Exit(1)
 		}
